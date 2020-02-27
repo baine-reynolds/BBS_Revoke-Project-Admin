@@ -10,18 +10,18 @@ session = requests.Session()
 session.auth = (admin_user, admin_password)
 
 def get_projects(start=None, limit=None):
-	while True:
-		params = {'start': start, 'limit': limit}
-		try:
-			r = session.get(url + '/rest/api/1.0/projects', params=params)
-		except requests.exceptions.SSLError:
-			r = session.get(url + '/rest/api/1.0/projects', params=params, verify=False)
-		r_data = r.json()
-		for project_json in r_data['values']:
-			yield project_json
-		if r_data['isLastPage'] == True:
-			return
-		start = r_data['nextPageStart']
+    while True:
+        params = {'start': start, 'limit': limit}
+        try:
+            r = session.get(url + '/rest/api/1.0/projects', params=params)
+        except requests.exceptions.SSLError:
+            r = session.get(url + '/rest/api/1.0/projects', params=params, verify=False)
+        r_data = r.json()
+        for project_json in r_data['values']:
+            yield project_json
+        if r_data['isLastPage'] == True:
+            return
+        start = r_data['nextPageStart']
 
 def get_project_user_perms(project, start=None, limit=None):
     while True:
